@@ -29,11 +29,23 @@ namespace serpostAPI
             {
                 options.AddPolicy(CORS_Policy, builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    var corsUrlSection = Configuration.GetSection("Cors_AllowedOrigins");
+                    var corsUrls = corsUrlSection.Get<string[]>();
+                    builder.WithOrigins(corsUrls)
+                                 .AllowAnyOrigin()
                                  .AllowAnyHeader()
                                  .AllowAnyMethod();
                 });
             });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(CORS_Policy, builder =>
+            //    {
+            //        builder.AllowAnyOrigin()
+            //                     .AllowAnyHeader()
+            //                     .AllowAnyMethod();
+            //    });
+            //});
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -49,7 +61,7 @@ namespace serpostAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseCors(CORS_Policy);
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseCors(CORS_Policy);
