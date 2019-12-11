@@ -32,7 +32,7 @@ namespace serpostAPI
                     var corsUrlSection = Configuration.GetSection("Cors_AllowedOrigins");
                     var corsUrls = corsUrlSection.Get<string[]>();
                     builder.WithOrigins(corsUrls)
-                                 .AllowAnyOrigin()
+                                 //.AllowAnyOrigin()
                                  .AllowAnyHeader()
                                  .AllowAnyMethod();
                 });
